@@ -97,6 +97,9 @@ public class impor_ex extends javax.swing.JFrame {
     String arrayA[]= new String[25]; //obtendra el nombre las columnas
     String matricula[]= new String[80];//arreglo que tiene todas las matriculas
     
+    int xMouse;
+    int yMouse;
+    
             
     public impor_ex() {     
         initComponents();
@@ -325,7 +328,6 @@ public class impor_ex extends javax.swing.JFrame {
     private void initComponents() {
 
         recuadros_Seleccion = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
         btn_Importar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -339,26 +341,46 @@ public class impor_ex extends javax.swing.JFrame {
         calendario = new com.toedter.calendar.JDateChooser();
         seleccion = new javax.swing.JRadioButton();
         deseleccion = new javax.swing.JRadioButton();
+        kGradientPanel1 = new keeptoo.KGradientPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 51, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setUndecorated(true);
+        setResizable(false);
+        setSize(new java.awt.Dimension(870, 630));
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic", 0, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Escoge tu Documento");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(270, 10, 350, 50);
-
         btn_Importar.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
-        btn_Importar.setText("Subir Archivo");
-        btn_Importar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 204, 255), new java.awt.Color(153, 204, 255), new java.awt.Color(153, 204, 255), new java.awt.Color(153, 204, 255)));
+        btn_Importar.setForeground(new java.awt.Color(153, 0, 204));
+        btn_Importar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buttonSA.png"))); // NOI18N
+        btn_Importar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 5, true));
+        btn_Importar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_ImportarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_ImportarMouseExited(evt);
+            }
+        });
         btn_Importar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_ImportarActionPerformed(evt);
             }
         });
         getContentPane().add(btn_Importar);
-        btn_Importar.setBounds(40, 90, 140, 40);
+        btn_Importar.setBounds(30, 90, 220, 50);
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -382,15 +404,16 @@ public class impor_ex extends javax.swing.JFrame {
         jScrollPane1.setBounds(30, 250, 820, 250);
 
         imprimir.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
-        imprimir.setText("Imprimir");
-        imprimir.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 255, 153), new java.awt.Color(153, 255, 153), new java.awt.Color(153, 255, 153), new java.awt.Color(153, 255, 153)));
+        imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buttonR.png"))); // NOI18N
+        imprimir.setToolTipText("");
+        imprimir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 153), 5, true));
         imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imprimirActionPerformed(evt);
             }
         });
         getContentPane().add(imprimir);
-        imprimir.setBounds(580, 580, 150, 40);
+        imprimir.setBounds(670, 570, 180, 50);
 
         semestre.setFont(new java.awt.Font("Yu Gothic", 0, 12)); // NOI18N
         semestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "PRIMER SEMESTRE", "SEGUNDO SEMESTRE", "TERCER SEMESTRE", "CUARTO SEMESTRE", "QUINTO SEMESTRE", "SEXTO SEMESTRE" }));
@@ -447,6 +470,18 @@ public class impor_ex extends javax.swing.JFrame {
         });
         getContentPane().add(deseleccion);
         deseleccion.setBounds(170, 510, 140, 30);
+
+        kGradientPanel1.setkEndColor(new java.awt.Color(54, 55, 149));
+        kGradientPanel1.setkStartColor(new java.awt.Color(0, 92, 151));
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Escoge tu Documento");
+        kGradientPanel1.add(jLabel1);
+
+        getContentPane().add(kGradientPanel1);
+        kGradientPanel1.setBounds(0, 0, 910, 640);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -704,6 +739,29 @@ public class impor_ex extends javax.swing.JFrame {
             modelo.setValueAt(false, fg,0);        
     }//GEN-LAST:event_deseleccionActionPerformed
 
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x-xMouse,y-yMouse);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        // TODO add your handling code here:
+        xMouse  = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_formMousePressed
+
+    private void btn_ImportarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ImportarMouseEntered
+        // TODO add your handling code here:
+        btn_Importar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buttonI.png"))); // NOI18N
+    }//GEN-LAST:event_btn_ImportarMouseEntered
+
+    private void btn_ImportarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ImportarMouseExited
+        // TODO add your handling code here
+        btn_Importar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buttonSA.png"))); // NOI18N
+
+    }//GEN-LAST:event_btn_ImportarMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -763,6 +821,7 @@ public class impor_ex extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.ButtonGroup recuadros_Seleccion;
     private javax.swing.JButton salir;
     private javax.swing.JRadioButton seleccion;
